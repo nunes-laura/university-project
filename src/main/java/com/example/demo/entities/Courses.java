@@ -6,12 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.example.demo.enums.Categories;
@@ -35,9 +32,7 @@ public class Courses {
 	@Column
 	private Categories category;
 	
-	@ManyToOne
-	@JoinColumn(name = "university_id", referencedColumnName = "id")
-	private University university;
+	
 	
 	public Courses(){};
 
@@ -46,7 +41,7 @@ public class Courses {
 		this.id = id;
 		this.name = name;
 		this.category = category;
-		this.code = code;
+		this.code = code;	
 		
 	}
 
@@ -82,12 +77,5 @@ public class Courses {
 		this.code = code;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 
 }

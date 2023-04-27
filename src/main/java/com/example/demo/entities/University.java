@@ -3,7 +3,7 @@ package com.example.demo.entities;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,9 +31,8 @@ public class University {
 	@Column
 	private String address;
 	
-	
 	@OneToMany
-	//@JoinColumn(name = "university")
+	@JoinColumn(name = "university_id") //cria uma coluna na tabela de cursos
 	private List<Courses> courses;
 
 	public University(){};
@@ -77,6 +76,20 @@ public class University {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public List<Courses> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Courses> courses) {
+		this.courses = courses;
+	}
+	
+	
+
+	
+	
+	
 
 
 	
