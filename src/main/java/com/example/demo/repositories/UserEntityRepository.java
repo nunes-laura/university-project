@@ -6,10 +6,13 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entities.University;
+import com.example.demo.entities.UserEntity;
 
 @Repository
-public interface UniversityRepository extends JpaRepository<University, UUID> {
+public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
+	
+	List<UserEntity> findAll();
+	
+	UserEntity findByUsername(String username);
 
-	List<University> findAll();
 }
