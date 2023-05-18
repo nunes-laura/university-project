@@ -15,38 +15,35 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
-@Table(name = "user_table")
-public class UserEntity implements UserDetails {
-	
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity(name = "new_user")
+@Table(name = "new_users")
+public class ClientUser implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private UUID id;
 	
 	@Column
-	private String name;
-	
-	@Column
-	private Integer age;
-	
-	@Column
-	private String username;
+	private String login;
 	
 	@Column
 	private String password;
 	
-	public UserEntity(){}
+	@Column
+	private String role;
+	
+	public ClientUser() {}
 
-	public UserEntity(UUID id, String name, Integer age, String username, String password) {
-		super();
+	public ClientUser(UUID id, String login, String password, String role) {
 		this.id = id;
-		this.name = name;
-		this.username = username;
+		this.login = login;
 		this.password = password;
-		this.age = age;
+		this.role = role;
 	}
 
 	public UUID getId() {
@@ -57,28 +54,12 @@ public class UserEntity implements UserDetails {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getPassword() {
@@ -88,32 +69,51 @@ public class UserEntity implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority("ROLE_USER")) ; //no momento todos serão usuários simples
+		return List.of(new SimpleGrantedAuthority(role));
 	}
 
+	@JsonIgnore
+	@Override
+	public String getUsername() {
+		return login;
+	}
+
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
 	
 	
 	

@@ -9,30 +9,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.Login;
-import com.example.demo.entities.UserEntity;
+import com.example.demo.entities.ClientUser;
 import com.example.demo.service.TokenService;
 
 @RestController
 public class AuthController {
 	
 	@Autowired
-	private AuthenticationManager authManager;
+	AuthenticationManager authManager;
 	
 	@Autowired
-	private TokenService tokenService;
+	TokenService tokenService;
 	
 	@PostMapping("/login")
-	public String save(@RequestBody Login login) {
-		UsernamePasswordAuthenticationToken auth =	
-				new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
+	public String login (@RequestBody Login login) {
 		
-		Authentication authenticate = this.authManager.authenticate(auth);
-		 
-		var user = (UserEntity)authenticate.getPrincipal();
+		UsernamePasswordAuthenticationToken authToken = 
+				new UsernamePasswordAuthenticationToken(login.login(), login.password());
 		
-		var token = tokenService.generateToken(user);
+		Authentication authentication = this.authManager.authenticate(authToken);
 		
-		return token ;
+		var usuario = (ClientUser)authentication.getPrincipal();
+		
+		
+		return tokenService.gerarToken(usuario);
 	}
+	
 
 }

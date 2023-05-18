@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +13,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.demo.entities.UserEntity;
-import com.example.demo.repositories.UserEntityRepository;
+import com.example.demo.entities.ClientUser;
+import com.example.demo.repositories.ClientUserRepository;
 
 @RestController
-@RequestMapping("/users")
-public class UserEntityController {
+@RequestMapping("/client-users")
+public class ClientUserController {
 	
 	@Autowired
-	private UserEntityRepository userRepository;
+	public ClientUserRepository userRepository;
 	
+
 	@Autowired
 	private PasswordEncoder encoder;
 	
 	@GetMapping
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public @ResponseBody List<UserEntity> findAll(){
+	public @ResponseBody List<ClientUser> findAll(){
 		return userRepository.findAll(); }
 	
 	@PostMapping("/save")
 	@ResponseStatus(HttpStatus.CREATED)
-	public UserEntity save(@RequestBody UserEntity user) {
+	public ClientUser save(@RequestBody ClientUser user) {
 		user.setPassword(encoder.encode(user.getPassword()));
 		return userRepository.save(user); }
 	
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void delete (@PathVariable UUID id) {
 		userRepository.findById(id).map(user ->{ userRepository.delete(user);
@@ -52,25 +51,13 @@ public class UserEntityController {
 		.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));}
 	
 	
-	@PutMapping("update/{id}")
+	@PutMapping("/update/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public void update (@PathVariable UUID id, @RequestBody UserEntity userEntity) {
+	public void update (@PathVariable UUID id, @RequestBody ClientUser userEntity) {
 		userRepository.findById(id).map(existsUser -> {userEntity.setId(existsUser.getId());
 		userRepository.save(userEntity);
 		return existsUser;})
 		.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));}
 	
-	
-	@GetMapping("/validator")
-	public boolean passwordValidator (@RequestParam String username, String password) {
-		Optional<UserEntity> existsUser = Optional.ofNullable(userRepository.findByUsername(username));
-		if (existsUser.isEmpty()) {
-			return false;}
-		
-		UserEntity user = existsUser.get();
-		boolean valid = encoder.matches(password, user.getPassword());
-		
-		return valid;
-	}
-
 }
+
