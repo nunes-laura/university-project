@@ -39,7 +39,7 @@ public class SecurityConfig {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeHttpRequests()
-				.antMatchers(HttpMethod.POST, "/login", "/client-users/save")
+				.antMatchers(HttpMethod.POST, "/client-users/save", "/login")
 				.permitAll()
 				.antMatchers(HttpMethod.GET, "/home")
 				.permitAll()

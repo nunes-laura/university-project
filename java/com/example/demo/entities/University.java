@@ -3,7 +3,6 @@ package com.example.demo.entities;
 import java.util.List;
 import java.util.UUID;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "universitydata")
@@ -23,12 +24,15 @@ public class University {
 	private UUID id;
 	
 	@Column
+	@NotNull
 	private String name;
 	
 	@Column
+	@NotNull
 	private String CNPJ;
 	
 	@Column
+	@NotNull
 	private String address;
 	
 	@OneToMany

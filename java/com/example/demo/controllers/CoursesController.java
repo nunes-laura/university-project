@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,12 @@ public class CoursesController {
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public Courses getById(@PathVariable UUID id) {
-		return c.findById(id)
-				.orElseThrow(
-						()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found!"));
+		return c.findById(id).orElseThrow(
+				()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found!"));
+		
+		 //Optional<Courses> cs = c.findById(id);
+				//return cs.orElseThrow(
+					//	()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found!"));
 	}
 	
 	@DeleteMapping("/delete/{id}")

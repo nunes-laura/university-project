@@ -16,7 +16,7 @@ public class TokenService {
 		return JWT.create()
 				.withIssuer("University")
 				.withSubject(user.getUsername())
-				.withExpiresAt(LocalDateTime.now().plusSeconds(60).toInstant(ZoneOffset.of("-03:00")))
+				.withExpiresAt(LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00")))
 				.sign(Algorithm.HMAC256("secret"));
 	}
 
